@@ -1,5 +1,8 @@
 # vma-zig
 
+Look, I needed VMA to work in Zig 0.15, so I had this wrapper vibe coded, so I could do what I actually
+needed to do. Probably will maintain, maybe. Let me know
+
 Zig 0.14+ bindings for [Vulkan Memory Allocator (VMA)](https://github.com/GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator).
 
 This is a community-maintained fork updated for modern Zig (0.14/0.15+), using the new build system APIs.
@@ -19,7 +22,7 @@ Add to your `build.zig.zon`:
 ```zig
 .dependencies = .{
     .@"vma-zig" = .{
-        .url = "git+https://github.com/trashguy/vma-zig#COMMIT_HASH",
+        .url = "git+https://github.com/trashguy/zig-vma#COMMIT_HASH",
         .hash = "...",
     },
 },
