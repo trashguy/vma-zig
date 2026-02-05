@@ -135,42 +135,42 @@ const VmaAllocatorCreateInfo = extern struct {
     pHeapSizeLimit: ?[*]const vk.DeviceSize = null,
     pVulkanFunctions: ?*const VmaVulkanFunctions = null,
     instance: vk.Instance,
-    vulkanApiVersion: u32 = vk.API_VERSION_1_0,
+    vulkanApiVersion: u32 = @bitCast(vk.API_VERSION_1_0),
     pTypeExternalMemoryHandleTypes: ?[*]const vk.ExternalMemoryHandleTypeFlagsKHR = null,
 };
 
 const VmaVulkanFunctions = extern struct {
-    vkGetInstanceProcAddr: vk.PfnGetInstanceProcAddr = null,
-    vkGetDeviceProcAddr: vk.PfnGetDeviceProcAddr = null,
-    vkGetPhysicalDeviceProperties: vk.PfnGetPhysicalDeviceProperties = null,
-    vkGetPhysicalDeviceMemoryProperties: vk.PfnGetPhysicalDeviceMemoryProperties = null,
-    vkAllocateMemory: vk.PfnAllocateMemory = null,
-    vkFreeMemory: vk.PfnFreeMemory = null,
-    vkMapMemory: vk.PfnMapMemory = null,
-    vkUnmapMemory: vk.PfnUnmapMemory = null,
-    vkFlushMappedMemoryRanges: vk.PfnFlushMappedMemoryRanges = null,
-    vkInvalidateMappedMemoryRanges: vk.PfnInvalidateMappedMemoryRanges = null,
-    vkBindBufferMemory: vk.PfnBindBufferMemory = null,
-    vkBindImageMemory: vk.PfnBindImageMemory = null,
-    vkGetBufferMemoryRequirements: vk.PfnGetBufferMemoryRequirements = null,
-    vkGetImageMemoryRequirements: vk.PfnGetImageMemoryRequirements = null,
-    vkCreateBuffer: vk.PfnCreateBuffer = null,
-    vkDestroyBuffer: vk.PfnDestroyBuffer = null,
-    vkCreateImage: vk.PfnCreateImage = null,
-    vkDestroyImage: vk.PfnDestroyImage = null,
-    vkCmdCopyBuffer: vk.PfnCmdCopyBuffer = null,
-    vkGetBufferMemoryRequirements2KHR: vk.PfnGetBufferMemoryRequirements2KHR = null,
-    vkGetImageMemoryRequirements2KHR: vk.PfnGetImageMemoryRequirements2KHR = null,
-    vkBindBufferMemory2KHR: vk.PfnBindBufferMemory2KHR = null,
-    vkBindImageMemory2KHR: vk.PfnBindImageMemory2KHR = null,
-    vkGetPhysicalDeviceMemoryProperties2KHR: vk.PfnGetPhysicalDeviceMemoryProperties2KHR = null,
-    vkGetDeviceBufferMemoryRequirements: vk.PfnGetDeviceBufferMemoryRequirements = null,
-    vkGetDeviceImageMemoryRequirements: vk.PfnGetDeviceImageMemoryRequirements = null,
+    vkGetInstanceProcAddr: ?vk.PfnGetInstanceProcAddr = null,
+    vkGetDeviceProcAddr: ?vk.PfnGetDeviceProcAddr = null,
+    vkGetPhysicalDeviceProperties: ?vk.PfnGetPhysicalDeviceProperties = null,
+    vkGetPhysicalDeviceMemoryProperties: ?vk.PfnGetPhysicalDeviceMemoryProperties = null,
+    vkAllocateMemory: ?vk.PfnAllocateMemory = null,
+    vkFreeMemory: ?vk.PfnFreeMemory = null,
+    vkMapMemory: ?vk.PfnMapMemory = null,
+    vkUnmapMemory: ?vk.PfnUnmapMemory = null,
+    vkFlushMappedMemoryRanges: ?vk.PfnFlushMappedMemoryRanges = null,
+    vkInvalidateMappedMemoryRanges: ?vk.PfnInvalidateMappedMemoryRanges = null,
+    vkBindBufferMemory: ?vk.PfnBindBufferMemory = null,
+    vkBindImageMemory: ?vk.PfnBindImageMemory = null,
+    vkGetBufferMemoryRequirements: ?vk.PfnGetBufferMemoryRequirements = null,
+    vkGetImageMemoryRequirements: ?vk.PfnGetImageMemoryRequirements = null,
+    vkCreateBuffer: ?vk.PfnCreateBuffer = null,
+    vkDestroyBuffer: ?vk.PfnDestroyBuffer = null,
+    vkCreateImage: ?vk.PfnCreateImage = null,
+    vkDestroyImage: ?vk.PfnDestroyImage = null,
+    vkCmdCopyBuffer: ?vk.PfnCmdCopyBuffer = null,
+    vkGetBufferMemoryRequirements2KHR: ?vk.PfnGetBufferMemoryRequirements2KHR = null,
+    vkGetImageMemoryRequirements2KHR: ?vk.PfnGetImageMemoryRequirements2KHR = null,
+    vkBindBufferMemory2KHR: ?vk.PfnBindBufferMemory2KHR = null,
+    vkBindImageMemory2KHR: ?vk.PfnBindImageMemory2KHR = null,
+    vkGetPhysicalDeviceMemoryProperties2KHR: ?vk.PfnGetPhysicalDeviceMemoryProperties2KHR = null,
+    vkGetDeviceBufferMemoryRequirements: ?vk.PfnGetDeviceBufferMemoryRequirements = null,
+    vkGetDeviceImageMemoryRequirements: ?vk.PfnGetDeviceImageMemoryRequirements = null,
 };
 
 const VmaDeviceMemoryCallbacks = extern struct {
-    pfnAllocate: ?*const fn (VmaAllocator, u32, vk.DeviceMemory, vk.DeviceSize, ?*anyopaque) callconv(.C) void = null,
-    pfnFree: ?*const fn (VmaAllocator, u32, vk.DeviceMemory, vk.DeviceSize, ?*anyopaque) callconv(.C) void = null,
+    pfnAllocate: ?*const fn (VmaAllocator, u32, vk.DeviceMemory, vk.DeviceSize, ?*anyopaque) callconv(.c) void = null,
+    pfnFree: ?*const fn (VmaAllocator, u32, vk.DeviceMemory, vk.DeviceSize, ?*anyopaque) callconv(.c) void = null,
     pUserData: ?*anyopaque = null,
 };
 
@@ -245,7 +245,7 @@ const VmaDefragmentationInfo = extern struct {
     pool: ?VmaPool = null,
     maxBytesPerPass: vk.DeviceSize = 0,
     maxAllocationsPerPass: u32 = 0,
-    pfnBreakCallback: ?*const fn (?*anyopaque) callconv(.C) vk.Bool32 = null,
+    pfnBreakCallback: ?*const fn (?*anyopaque) callconv(.c) vk.Bool32 = null,
     pBreakCallbackUserData: ?*anyopaque = null,
 };
 
@@ -761,4 +761,59 @@ test "flag types are correct size" {
     try std.testing.expectEqual(@sizeOf(AllocationCreateFlags), 4);
     try std.testing.expectEqual(@sizeOf(PoolCreateFlags), 4);
     try std.testing.expectEqual(@sizeOf(DefragmentationFlags), 4);
+    try std.testing.expectEqual(@sizeOf(VirtualBlockCreateFlags), 4);
+    try std.testing.expectEqual(@sizeOf(VirtualAllocationCreateFlags), 4);
+}
+
+test "flag bitfield operations" {
+    var flags = AllocationCreateFlags{};
+    try std.testing.expect(!flags.dedicated_memory);
+    try std.testing.expect(!flags.mapped);
+
+    flags.dedicated_memory = true;
+    flags.mapped = true;
+    try std.testing.expect(flags.dedicated_memory);
+    try std.testing.expect(flags.mapped);
+
+    // Test packed struct bit pattern
+    const as_int: u32 = @bitCast(flags);
+    try std.testing.expectEqual(as_int, 0b101); // bits 0 and 2
+}
+
+test "memory usage enum values" {
+    try std.testing.expectEqual(@intFromEnum(MemoryUsage.unknown), 0);
+    try std.testing.expectEqual(@intFromEnum(MemoryUsage.gpu_only), 1);
+    try std.testing.expectEqual(@intFromEnum(MemoryUsage.cpu_only), 2);
+    try std.testing.expectEqual(@intFromEnum(MemoryUsage.cpu_to_gpu), 3);
+    try std.testing.expectEqual(@intFromEnum(MemoryUsage.gpu_to_cpu), 4);
+    try std.testing.expectEqual(@intFromEnum(MemoryUsage.auto), 7);
+    try std.testing.expectEqual(@intFromEnum(MemoryUsage.auto_prefer_device), 8);
+    try std.testing.expectEqual(@intFromEnum(MemoryUsage.auto_prefer_host), 9);
+}
+
+test "C struct layout matches expected sizes" {
+    // VMA C structs should have predictable sizes for FFI
+    try std.testing.expect(@sizeOf(VmaAllocatorCreateInfo) > 0);
+    try std.testing.expect(@sizeOf(VmaAllocationCreateInfo) > 0);
+    try std.testing.expect(@sizeOf(VmaAllocationInfo) > 0);
+    try std.testing.expect(@sizeOf(VmaPoolCreateInfo) > 0);
+    try std.testing.expect(@sizeOf(VmaStatistics) > 0);
+}
+
+test "default allocation create info" {
+    const info = AllocationCreateInfo{};
+    try std.testing.expectEqual(info.usage, .auto);
+    try std.testing.expectEqual(info.memory_type_bits, 0);
+    try std.testing.expectEqual(info.pool, null);
+    try std.testing.expectEqual(info.priority, 0);
+}
+
+test "allocator create flags" {
+    const flags = AllocatorCreateFlags{
+        .buffer_device_address = true,
+        .ext_memory_budget = true,
+    };
+    try std.testing.expect(flags.buffer_device_address);
+    try std.testing.expect(flags.ext_memory_budget);
+    try std.testing.expect(!flags.externally_synchronized);
 }

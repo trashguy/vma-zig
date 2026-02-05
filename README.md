@@ -19,7 +19,7 @@ Add to your `build.zig.zon`:
 ```zig
 .dependencies = .{
     .@"vma-zig" = .{
-        .url = "git+https://github.com/YOUR_USERNAME/vma-zig#COMMIT_HASH",
+        .url = "git+https://github.com/trashguy/vma-zig#COMMIT_HASH",
         .hash = "...",
     },
 },
