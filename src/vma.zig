@@ -31,7 +31,7 @@
 //! ```
 
 const std = @import("std");
-const vk = @import("vulkan");
+pub const vk = @import("vulkan");
 
 // ============================================================================
 // C Bindings (extern declarations for VMA functions)
