@@ -429,7 +429,7 @@ pub const Allocator = struct {
         physical_device: vk.PhysicalDevice,
         device: vk.Device,
         instance: vk.Instance,
-        vulkan_api_version: u32 = vk.API_VERSION_1_0,
+        vulkan_api_version: u32 = @bitCast(vk.API_VERSION_1_0),
         preferred_large_heap_block_size: vk.DeviceSize = 0,
         allocation_callbacks: ?*const vk.AllocationCallbacks = null,
     };
