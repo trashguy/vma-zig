@@ -133,13 +133,13 @@ const VmaAllocatorCreateInfo = extern struct {
     pAllocationCallbacks: ?*const vk.AllocationCallbacks = null,
     pDeviceMemoryCallbacks: ?*const VmaDeviceMemoryCallbacks = null,
     pHeapSizeLimit: ?[*]const vk.DeviceSize = null,
-    pVulkanFunctions: ?*const VmaVulkanFunctions = null,
+    pVulkanFunctions: ?*const VulkanFunctions = null,
     instance: vk.Instance,
     vulkanApiVersion: u32 = @bitCast(vk.API_VERSION_1_0),
     pTypeExternalMemoryHandleTypes: ?[*]const vk.ExternalMemoryHandleTypeFlagsKHR = null,
 };
 
-const VmaVulkanFunctions = extern struct {
+pub const VulkanFunctions = extern struct {
     vkGetInstanceProcAddr: ?vk.PfnGetInstanceProcAddr = null,
     vkGetDeviceProcAddr: ?vk.PfnGetDeviceProcAddr = null,
     vkGetPhysicalDeviceProperties: ?vk.PfnGetPhysicalDeviceProperties = null,
@@ -432,6 +432,9 @@ pub const Allocator = struct {
         vulkan_api_version: u32 = @bitCast(vk.API_VERSION_1_0),
         preferred_large_heap_block_size: vk.DeviceSize = 0,
         allocation_callbacks: ?*const vk.AllocationCallbacks = null,
+        /// Vulkan function pointers for VMA_DYNAMIC_VULKAN_FUNCTIONS mode.
+        /// At minimum, vkGetInstanceProcAddr and vkGetDeviceProcAddr must be set.
+        vulkan_functions: ?*const VulkanFunctions = null,
     };
 
     /// Create a new VMA allocator
@@ -445,6 +448,7 @@ pub const Allocator = struct {
             .vulkanApiVersion = info.vulkan_api_version,
             .preferredLargeHeapBlockSize = info.preferred_large_heap_block_size,
             .pAllocationCallbacks = info.allocation_callbacks,
+            .pVulkanFunctions = info.vulkan_functions,
         };
         try checkResult(vmaCreateAllocator(&create_info, &handle));
         return .{ .handle = handle };

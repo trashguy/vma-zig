@@ -11,6 +11,20 @@ pub fn build(b: *std.Build) void {
         "Path to the Vulkan registry (vk.xml). Usually at $VULKAN_SDK/share/vulkan/registry/vk.xml",
     ) orelse findVulkanRegistry(b);
 
+    // Vulkan library path for cross-compilation (e.g., Windows from Linux)
+    const vulkan_lib_path = b.option(
+        std.Build.LazyPath,
+        "vulkan_lib_path",
+        "Path to Vulkan library directory (for cross-compilation)",
+    );
+
+    // Vulkan include path for cross-compilation
+    const vulkan_include_path = b.option(
+        std.Build.LazyPath,
+        "vulkan_include_path",
+        "Path to Vulkan include directory (for cross-compilation)",
+    );
+
     // Get vulkan-zig dependency with registry path
     const vkzig_dep = b.dependency("vulkan-zig", .{
         .registry = registry,
@@ -35,7 +49,24 @@ pub fn build(b: *std.Build) void {
     // Add VMA C++ source
     vma_lib_module.addCSourceFile(.{ .file = vma_cpp });
     vma_lib_module.addIncludePath(b.path("."));
-    vma_lib_module.linkSystemLibrary("stdc++", .{});
+
+    // Add custom include path if provided (for cross-compilation)
+    if (vulkan_include_path) |inc_path| {
+        vma_lib_module.addIncludePath(inc_path);
+    }
+
+    // Add custom library path if provided (for cross-compilation)
+    if (vulkan_lib_path) |lib_path| {
+        vma_lib_module.addLibraryPath(lib_path);
+    }
+
+    // Link C++ standard library
+    if (target.result.os.tag == .windows) {
+        // Windows: use static libstdc++ to avoid runtime dependency
+        vma_lib_module.linkSystemLibrary("stdc++", .{ .use_pkg_config = .no });
+    } else {
+        vma_lib_module.linkSystemLibrary("stdc++", .{});
+    }
 
     // Link Vulkan
     if (target.result.os.tag == .windows) {
