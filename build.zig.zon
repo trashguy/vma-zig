@@ -1,13 +1,13 @@
 .{
     .name = .vma_zig,
-    .version = "0.2.0",
+    .version = "0.2.1",
     .fingerprint = 0xaf0dae71028e5894,
     .minimum_zig_version = "0.14.0",
 
     .dependencies = .{
         .@"vulkan-zig" = .{
             .url = "git+https://github.com/Snektron/vulkan-zig#zig-0.15-compat",
-            .hash = "vulkan-0.0.0-r7Ytx_VDAwAiMl0YSu2UOkVMIGJN7CeIQaxJR-hUSfD6",
+            .hash = "vulkan-0.0.0-r7YtxztIAwBc30xIMx4tzfUcEmc7goWiFJkR13yeLfi8",
         },
     },
 
